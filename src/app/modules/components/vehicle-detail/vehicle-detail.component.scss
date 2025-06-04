@@ -1,0 +1,15 @@
+:host {
+    .discount ::ng-deep .mat-form-field-flex {
+        min-height: 0 !important;
+        height: 36px !important;
+    }
+
+    .selected-btn {
+        background-color: #64c5fd14 !important;
+    }
+
+    .outime-space {
+        padding-left: 12.5px !important;
+        padding-right: 12.5px !important;
+    }
+}

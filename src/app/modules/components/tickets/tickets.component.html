@@ -1,0 +1,114 @@
+<div class="flex flex-initial justify-between  px-6 items-center text-white bg-primary">
+    <div class="flex flex-row items-center h-16 min-h-16">
+        <mat-icon class="icon-size-7 text-current" [svgIcon]="'heroicons_outline:ticket'"></mat-icon>
+        <div class="ml-3 text-2xl font-semibold tracking-tight">{{
+            'Tickets' | translate}}</div>
+    </div>
+    <mat-icon (click)="close()" class="icon-size-7 cursor-pointer text-current" [svgIcon]="'close'">
+    </mat-icon>
+</div>
+<div class="flex flex-0 flex-col p-3 m-3 md:m-0 ticket-container-height overflow-auto" [formGroup]="form">
+    <mat-tab-group [ngClass]="loading ? 'pointer-events-none' : ''" [disableRipple]="true"
+        [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="tabChanged();">
+        <mat-tab *ngFor="let tab of tabs">
+            <ng-template mat-tab-label>
+                <mat-icon class="mx-1" [svgIcon]="tab?.icon"></mat-icon>
+                <span>{{translationService.getTranslatedField(tab,"name")}}</span>
+            </ng-template>
+            <div class="flex flex-col flex-auto">
+                <div class="flex flex-col flex-auto">
+                    <div class="m-1">
+                        <mat-form-field class="w-full mt-3">
+                            <mat-label>
+                                {{'Search' | translate}}
+                            </mat-label>
+                            <mat-icon [ngClass]="form.get('search').value ? 'text-primary' : ''" matPrefix
+                                svgIcon="manage_search"></mat-icon>
+                            <mat-icon title="clear" class="cursor-pointer" *ngIf="form.get('search').value" matSuffix
+                                (click)="form.get('search').setValue('')" svgIcon="close">
+                            </mat-icon>
+                            <input [attr.autocomplete]="'off'" matInput formControlName="search">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto overflow-y-auto ticket-scroll-height">
+                        <ng-container *ngIf="!loading;else inProgress">
+                            <ng-container *ngIf="tickets?.length;else noTickets">
+                                <ng-container *ngFor="let ticket of tickets">
+                                    <div (click)="selectTickets(ticket)"
+                                        class="flex flex-0 flex-col hover:bg-blue-50 bg-card rounded-md shadow gap-2 mb-2 m-1 p-3 cursor-pointer"
+                                        [ngClass]="selectedTicket?.id == ticket?.id ? 'bg-blue-100' : ''">
+                                        <div class="flex flex-row flex-auto justify-between gap-1 ">
+                                            <strong>KWD {{ticket?.invoice_amount | number : '1.3-3'}}</strong>
+                                            <div class="rounded-md text-white primary-bg px-3">
+                                                <strong *ngIf="ticket?.country">{{ticket?.country}}-</strong>
+                                                <strong
+                                                    *ngIf="ticket?.plate_number_prefix">{{ticket?.plate_number_prefix}}
+                                                    -</strong>
+                                                <strong *ngIf="ticket?.plate_number">{{ticket?.plate_number}}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row flex-auto justify-between items-center gap-1">
+                                            <div class="text-secondary">{{'In Time' | translate}}</div>
+                                            <div class="flex flex-col flex-0 justify-end">
+                                                <div class="text-end">{{ticket?.in_time | date : 'dd/MM/yyyy'}}</div>
+                                                <div class="justify-end inline-flex items-center gap-1">
+                                                    <mat-icon class="icon-size-4" svgIcon="heroicons_outline:clock">
+                                                    </mat-icon>
+                                                    <strong> {{ticket?.in_time | date:"h:mm a"}}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="tab?.id!=1 && ticket?.out_time"
+                                            class="flex flex-row flex-auto justify-between items-center gap-1">
+                                            <div class="text-secondary">{{'Out Time' | translate}}</div>
+                                            <div class="flex flex-col flex-0 justify-end">
+                                                <div class="text-end">{{ticket?.out_time | date : 'dd/MM/yyyy'}}</div>
+                                                <div class="justify-end inline-flex items-center gap-1">
+                                                    <mat-icon class="icon-size-4" svgIcon="heroicons_outline:clock">
+                                                    </mat-icon>
+                                                    <strong> {{ticket?.out_time | date:"h:mm a"}}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="tab?.id!=1"
+                                            class="flex flex-row flex-auto justify-between items-center gap-1">
+                                            <div class="text-secondary">{{'Payment Mode' | translate}}</div>
+                                            <div class="flex flex-col flex-0 justify-end">
+                                                <div class="text-end font-bold">
+                                                    {{translationService.getTranslatedField(ticket?.payment_mode,"name")
+                                                    || 'NA'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <div *ngIf="checkPagination()"
+                                    class="flex flex-row flex-auto justify-center items-center">
+                                    <button [disabled]="isLoading" (click)="loadMore()"
+                                        class="fuse-mat-button-large h-10 bg-gray-100 flex bg-transparent min-w-0  min-h-0"
+                                        mat-flat-button>
+                                        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-icon class="icon-size-4 mx-1" svgIcon="heroicons_outline:arrow-down">
+                                            </mat-icon>
+                                            <span>{{'Load More' | translate}}</span>
+                                        </ng-container>
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<ng-template #noTickets>
+    <div class="justify-center items-center flex flex-auto">
+        <app-empty-items [hideIcon]="true" [message]="'Nothing to display' | translate"></app-empty-items>
+    </div>
+</ng-template>
+
+<ng-template #inProgress>
+    <app-tickets-skelton></app-tickets-skelton>
+</ng-template>

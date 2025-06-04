@@ -1,0 +1,166 @@
+<div class="flex flex-row lg:p-16 lg:pt-6 p-3  flex-auto min-w-0 lg:justify-center">
+    <div class="flex p-3 bg-card rounded-lg shadow flex-col flex-auto min-w-0 lg:flex-90 table-height">
+        <div class="flex sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:py-4 sm:px-4 border-b bg-card ">
+            <div class="flex-1 min-w-0 flex items-center">
+                <mat-icon svgIcon="mat_outline:sensor_door" class="icon-size-8"></mat-icon>
+                <h2 class="text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{'Gates' | translate}}
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-col flex-initial overflow-hidden">
+            <div class="overflow-x-auto sm:overflow-y-auto" cdkScrollable>
+                <!-- [ngClass]="customers?.length ? 'table-height' : 'h-50' "  -->
+                <table class="w-full min-w-320 md:min-w-0 table-fixed" mat-table matSort [dataSource]="gates"
+                    [trackBy]="trackByFn">
+                    <ng-container matColumnDef="gate_no">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Gate No' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-8 truncate" mat-cell *matCellDef="let element">
+                            {{element?.gate_no}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="gate_type">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Gate Type' | translate}}
+                                </div>
+                            </div>
+
+                        </th>
+                        <td class="pr-4" mat-cell *matCellDef="let element">
+                            {{element?.gate_type}}
+                        </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="updated_at">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Update Date' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-4" mat-cell *matCellDef="let element">
+                            {{element?.updated_at | date: 'dd/MM/yyyy hh:mm a'}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Status' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-4 w-12" mat-cell *matCellDef="let element">
+                            <mat-icon *ngIf="element?.status == 'enabled'" class="text-green-500" svgIcon="check">
+                            </mat-icon>
+                            <mat-icon *ngIf="element?.status != 'enabled'" class="text-red-500" svgIcon="close">
+                            </mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5 border-right-radius"
+                            style="text-align: end !important;" mat-header-cell *matHeaderCellDef disableClear>
+                            {{'Actions' | translate}}
+                        </th>
+                        <td class="pr-4 action-header" mat-cell *matCellDef="let element">
+                            <div class="flex flex-row flex-auto overflow-hidden action-body justify-end">
+                                <div class="flex flex-row action-btn-container" fxFlex="0 0 auto">
+                                    <button mat-icon-button type="button" matSuffix [matMenuTriggerFor]="userActions">
+                                        <mat-icon svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                    </button>
+                                </div>
+                                <mat-menu [xPosition]="'before'" #userActions="matMenu">
+                                    <button mat-menu-item (click)="configGate(element)">
+                                        <div class="flex flex-row flex-initial gap-x-2 items-center">
+                                            <mat-icon svgIcon="settings"></mat-icon>
+                                            <strong>{{'Configure' | translate}}</strong>
+                                        </div>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr class="shadow" mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+                    <tr class="mat-row" *matNoDataRow [ngClass]="isLoading? 'hidden' : ''">
+                        <td class="mat-cell border-b-0">{{'No data found' | translate}}</td>
+                    </tr>
+                    <tr class="h-18 hover:bg-hover" mat-row *matRowDef="let element; columns: columns;">
+                    </tr>
+                </table>
+                <div *ngIf="isLoading" class="mt-2">
+                    <ngx-skeleton-loader [count]="page?.pageSize" appearance="line"
+                        [theme]="{height: '60px', 'border-radius': '0px','margin-bottom': '1px'}"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <mat-paginator *ngIf="gates?.length"
+                class="sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 self-end"
+                (page)="handlePageEvent($event)" [length]="page?.length" [pageSize]="page?.pageSize"
+                [showFirstLastButtons]="true" [pageSizeOptions]="page?.pageSizeOptions" [pageIndex]="page?.pageIndex">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
+
+
+<fuse-drawer class="md:w-120 md:min-w-120 w-full min-w-full" fixed [mode]="'over'" [name]="'configDrawer'"
+    [position]="translationService.getDirection() == 'ltr' ? 'right' : 'left'" #configDrawer>
+    <form class="flex flex-col w-full overflow-auto bg-card" [formGroup]="form">
+        <div class="flex flex-initial justify-between  px-6 items-center text-white bg-primary">
+            <div class="flex flex-row items-center h-16 min-h-16">
+                <mat-icon class="icon-size-7 text-current" svgIcon="manage_accounts"></mat-icon>
+                <div class="ml-3 text-2xl font-semibold tracking-tight">
+                    {{'Configuration for Gate - ' |translate}} <strong>{{gateDetails?.gate_no}}</strong>
+                </div>
+            </div>
+            <mat-icon (click)="configDrawer.toggle()" class="icon-size-7 cursor-pointer text-current"
+                [svgIcon]="'close'">
+            </mat-icon>
+        </div>
+
+        <div class="flex flex-col p-6" formGroupName="pos_configuration">
+            <mat-form-field class="text-black">
+                <mat-label>{{'Api for print receipt' | translate}}
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text" formControlName="api_print_receipt" matInput>
+                <mat-spinner diameter="10" matSuffix *ngIf="isLoadingConfig"></mat-spinner>
+            </mat-form-field>
+            <mat-form-field class="text-black">
+                <mat-label>{{'Api for open drawer' | translate}}
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text" formControlName="api_open_drawer" matInput>
+                <mat-spinner diameter="10" matSuffix *ngIf="isLoadingConfig"></mat-spinner>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row flex-initial justify-end  p-6 pt-0">
+            <button type="submit" (click)="save()"
+                class="fuse-mat-button-large w-full md:w-auto text-white rounded-md min-h-0" mat-flat-button
+                [color]="'primary'">
+                <mat-icon svgIcon="save"></mat-icon>
+                <span class="hidden md:block">
+                    {{'Save' | translate}}
+                </span>
+            </button>
+        </div>
+    </form>
+
+</fuse-drawer>

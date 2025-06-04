@@ -1,0 +1,14 @@
+:host {
+    .card-padding {
+        padding: 9px 9px 0px 9px;
+    }
+
+    ::ng-deep .carousel-dot {
+        border: 2px solid #ccc !important;
+    }
+
+    ::ng-deep .carousel-dot-active {
+        border: 2px solid #14c5fc !important;
+        background-color: #14c5fc !important;
+    }
+}

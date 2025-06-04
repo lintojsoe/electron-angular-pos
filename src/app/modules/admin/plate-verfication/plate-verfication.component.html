@@ -1,0 +1,149 @@
+<div [ngClass]="direction == 'ltr' ? 'right-0 rounded-l-lg' : 'left-0 rounded-r-lg'"
+    class="fixed flex  gap-1 items-center justify-center  w-10 h-10 shadow-lg  z-999 cursor-pointer primary-bg bg-opacity-90 print:hidden"
+    style="top: 238px;z-index: 0 !important;" (click)="toggleHistory(true)">
+    <mat-icon class="mx-1 text-white" [svgIcon]="'mat_outline:history'"></mat-icon>
+</div>
+<div class="flex flex-row flex-auto min-w-0 lg:justify-center">
+    <div class="flex p-3 flex-col flex-auto min-w-0 lg:flex-65">
+        <div class="flex flex-col md:flex-row flex-auto gap-2 md:gap-2">
+            <div class="flex flex-col flex-auto">
+                <div
+                    class="flex flex-col flex-initial bg-card p-3 rounded-lg shadow gap-2 container-height overflow-auto">
+                    <div
+                        class="flex flex-row flex-initial justify-between items-center text-primary text-lg border-b pb-2">
+                        <div class="items-center flex flex-row flex-0">
+                            <mat-icon class="mx-1 text-primary" svgIcon="mat_outline:av_timer"></mat-icon>
+                            <div> {{'Pending Verifications' | translate}}</div>
+                        </div>
+                        <div class="flex flex-initial bg-gray-400 p-1 px-3 text-white rounded-md">
+                            <span class="text-sm"> {{vehicleList?.length}}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 overflow-y-auto"
+                        [ngClass]="!vehicleList?.length ? 'flex-auto' : 'flex-initial '">
+                        <ng-container *ngIf="vehicleList?.length;else noVehicleFound">
+                            <div class="col-span-1 sm:col-span-1 gap-y-2 flex flex-col"
+                                *ngFor="let vehicle of vehicleList;let i = index;let last =last">
+                                <div [ngClass]="last ? 'mb-1' : ''"
+                                    class="flex flex-0 flex-col gap-1 card-padding cursor-pointer">
+                                    <div
+                                        class="bg-card rounded-xl hover:bg-blue-50 shadow flex md:flex-row  flex-col p-4 flex-auto md:gap-30 gap-2">
+                                        <div class="flex flex-col flex-initial gap-1">
+                                            <carousel [cellWidth]="300" [arrows]="true" [autoplay]="true"
+                                                style="z-index: 0 !important;width: 300px !important;" class="mx-16"
+                                                [dots]="true" [arrowsOutside]="true">
+                                                <div class="carousel-cell">
+                                                    <ng-container
+                                                        *ngIf="vehicle?.first_entry_log?.data?.image;else noImage">
+                                                        <img [src]="vehicle?.first_entry_log?.data?.image">
+                                                    </ng-container>
+                                                </div>
+                                                <div class="carousel-cell">
+                                                    <ng-container
+                                                        *ngIf="vehicle?.second_entry_log?.data?.image;else noImage">
+                                                        <img [src]="vehicle?.second_entry_log?.data?.image">
+                                                    </ng-container>
+                                                </div>
+                                            </carousel>
+                                            <!-- <img class="w-36 -mt-5 -mb-2 self-center md:self-start"
+                                                src="assets/images/license-plate.png"> -->
+                                        </div>
+                                        <div class="flex flex-auto flex-col gap-2 md:gap-4 items-end">
+                                            <div
+                                                class="flex md:flex-row flex-col md:items-center md:justify-between gap-2">
+                                                <div class="flex flex-row flex-initial gap-1">
+                                                    <div class="flex flex-col gap-1">
+                                                        <div class="text-xs">{{'Country' | translate}}</div>
+                                                        <div
+                                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                            {{vehicle?.first_entry_log?.data?.country}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-col gap-1">
+                                                        <div class="text-xs">{{'Prefix' | translate}}</div>
+                                                        <div
+                                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                            {{vehicle?.first_entry_log?.data?.plate_number_prefix}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-col gap-1">
+                                                        <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                                        <div
+                                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                            {{vehicle?.first_entry_log?.data?.plate_number}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                                                <div class="flex flex-row flex-initial gap-2 items-center">
+                                                    <div class="flex flex-col gap-1 flex-initial ">
+                                                        <div class="text-xs">{{'In Time Date' | translate}}</div>
+                                                        <div
+                                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                            {{vehicle?.first_entry_log?.data?.in_time |
+                                                            date:"dd/MM/yyyy" }}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-col gap-1 flex-initial">
+                                                        <div class="text-xs">{{'In Time' | translate}}</div>
+                                                        <div
+                                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                            {{vehicle?.first_entry_log?.data?.in_time | date:'hh:mm a'}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-auto gap-2 flex-row items-center justify-end">
+                                                <button (click)="modify(vehicle)" type="submit"
+                                                    class="text-white rounded min-h-0 " mat-flat-button
+                                                    [color]="'primary'">
+                                                    <mat-icon class="mx-1 text-white" svgIcon="mat_outline:edit">
+                                                    </mat-icon>
+                                                    <span>
+                                                        {{'Modify' | translate}}
+                                                    </span>
+                                                </button>
+                                                <button (click)="approve(vehicle)" type="submit"
+                                                    class="text-white bg-green-400 rounded min-h-0 " mat-flat-button>
+                                                    <mat-icon class="mx-1 text-white" svgIcon="mat_outline:check">
+                                                    </mat-icon>
+                                                    <span>
+                                                        {{'Approve' | translate}}
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <ng-template #noVehicleFound>
+                    <div class="flex flex-col flex-auto items-center justify-center gap-4">
+                        <app-empty-items [message]="'Nothing to display' | translate">
+                        </app-empty-items>
+                    </div>
+                </ng-template>
+
+                <ng-template #placeHolder>
+                    <img src="assets/images/car-placeholder.jpeg" class="w-full h-full rounded-xl">
+                </ng-template>
+
+                <ng-template #noImage>
+                    <img class="w-36" src="../../../../assets/images/license-plate.png">
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fuse-drawer class="md:w-160 md:min-w-160 w-full min-w-full" fixed [mode]="'over'" [name]="'historyPopup'"
+    [position]="translationService.getDirection() == 'ltr' ? 'right' : 'left'" #historyPopup>
+    <app-plate-verification-history (closeHandler)="closeHandler()"></app-plate-verification-history>
+</fuse-drawer>

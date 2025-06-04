@@ -1,0 +1,35 @@
+# Check out https://docs.codemagic.io/getting-started/building-an-ionic-app/ for more information
+# Please review and update values in curly braces
+# Remove or comment out the workflows you don't require
+
+workflows:
+    # Web Staging
+    web-staging:
+        name: Staging
+        environment:
+            vars:
+                DISTRIBUTION_ID: Encrypted(Z0FBQUFBQmd2a0dsR3I0RWlsaDVKYVhibkF3RHJRV2w3TUdseXpUcmNUNDZ2aENybVJFVkxVX3Nzcm5TZ2ZLUUljc0hHeXZteW00My15dUJsZExlNmdBZkNFOXB2QWxld3c9PQ==)
+                AWS_ACCESS_KEY_ID: Encrypted(Z0FBQUFBQmd2ajUxclBVZVFvc3VLMXFIbXVmalZVUkJjNUZianR2WFUzRnVPTkk0SElCV1h1NHFxQUZtc0dxbDcwU3AwQThyX3ZSR0dkZGJuUHJEVGc5LUtSMnJtcktfM3JoNThFRkhab1ZaeFRmNzhkNEs1bHc9)
+                AWS_SECRET_ACCESS_KEY: Encrypted(Z0FBQUFBQmd2ajZneDdJN0E5WWJEYnhEYlVXS1hTS000b3k4bHNYa3FvNlFrdlBKLTUyR2w4Ql93djh0VFVvLXZmbzMtRHpON3lRWnllT2wzT2VGdlNaVEhmdFJmYmdjdk5BQzNhbml3R3gtb005MHRDYllVVjBJdU1FamlIRHB5cnBSbDBmVV9sank=)
+            node: 14.18.1
+        scripts:
+            - name: Install npm dependencies for Angular project
+              script: |
+                  npm install --force
+            - name: Install Angular CLI
+              script: |
+                  npm install -g @angular/cli
+            - name: Generate Dist folder
+              script: |
+                  ng build --prod
+            - name: Upload to s3
+              script: |
+                  cd $FCI_BUILD_DIR
+                  sudo pip3 install awscli --upgrade
+                  aws s3 sync dist/ s3://pos.getpass.me/
+            - name: zip files
+              script: |
+                  cd $FCI_BUILD_DIR/dist
+                  7z a -r ./staging.zip ./*
+        artifacts:
+            - dist/staging.zip

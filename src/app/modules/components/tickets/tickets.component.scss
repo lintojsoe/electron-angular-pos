@@ -1,0 +1,28 @@
+@import "styles/mixins";
+:host {
+    flex: 1 !important;
+
+    ::ng-deep .mat-tab-body-content {
+        padding: 0px !important;
+    }
+
+    @include mobile() {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    ::ng-deep .mat-tab-label-container {
+        padding: 0 !important;
+    }
+
+    // .container-height-side-bar {
+    //     height: 51vh !important;
+    // }
+    // .container-height-side-bar-ticket {
+    //     height: 61vh !important;
+    // }
+    // .container-height-side-bar-noItems {
+    //     min-height: 65vh !important;
+    // }
+}

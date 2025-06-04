@@ -1,0 +1,180 @@
+<div class="flex flex-col flex-auto bg-card p-3 rounded shadow gap-2 container-height overflow-auto">
+    <div class="text-primary text-lg border-b pb-2 items-center flex flex-row flex-0">
+        <mat-icon class="mx-1 text-primary" svgIcon="heroicons_outline:ticket"></mat-icon>
+        <div> {{'Ticket Summary' | translate}}</div>
+    </div>
+    <div class="flex flex-row flex-initial">
+        <div  [ngClass]="direction == 'ltr' ? 'rounded-l-md' : 'rounded-r-md'" class="w-5 h-10 bg-green-400"></div>
+        <div class="flex flex-auto flex-col md:flex-row md:gap-10 gap-2 bg-gray-100 bg-card shadow p-3 pb-2">
+            <div class="flex flex-col flex-0 gap-1">
+                <strong class="text-lg">{{'Entrance' | translate}}</strong>
+                <div class="w-30 h-24 flex flex-initial items-center">
+                    <ng-container *ngIf="selectedVehicleObject?.entry_image;else noImage">
+                        <img [src]="selectedVehicleObject?.entry_image">
+                    </ng-container>
+                </div>
+
+            </div>
+            <div class="flex flex-col flex-auto gap-2">
+                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                    <div>{{'Plate Number' | translate}}</div>
+                    <div class="flex flex-row flex-initial gap-2 items-center">
+                        <div class="flex flex-col gap-1 flex-initial ">
+                            <div class="text-xs">{{'Country' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.country"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.country}}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div class="text-xs">{{'Prefix' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.plate_number_prefix"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.plate_number_prefix}}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div class="text-xs">{{'Plate Number' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.plate_number"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.plate_number}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                    <div>{{'Entry Time' | translate}}</div>
+                    <div class="flex flex-row flex-initial gap-2 items-center">
+                        <div class="flex flex-col gap-1 flex-initial ">
+                            <div *ngIf="selectedVehicleObject?.in_time"
+                                class="border font-bold text-center border-solid border-gray-200 outime-space bg-white py-1">
+                                {{selectedVehicleObject?.in_time | date:"dd/MM/yyyy"}}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div *ngIf="selectedVehicleObject?.in_time"
+                                class="border font-bold text-center border-solid border-gray-200 outime-space bg-white py-1">
+                                {{selectedVehicleObject?.in_time | date:'hh:mm a'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row flex-initial">
+        <div  [ngClass]="direction == 'ltr' ? 'rounded-l-md' : 'rounded-r-md'" class="w-5 h-10 bg-red-400"></div>
+        <div class="flex flex-auto flex-col md:flex-row md:gap-10 gap-2 bg-gray-100 bg-card shadow p-3 pb-2">
+            <div class="flex flex-col flex-0 gap-1">
+                <strong class="text-lg">{{'Exit' | translate}}</strong>
+                <div class="w-30 h-24 flex flex-initial items-center">
+                    <ng-container *ngIf="selectedVehicleObject?.exit_image;else noImage">
+                        <img [src]="selectedVehicleObject?.exit_image">
+                    </ng-container>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto gap-2">
+                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                    <div>{{'Plate Number' | translate}}</div>
+                    <div class="flex flex-row flex-initial gap-2 items-center">
+                        <div class="flex flex-col gap-1 flex-initial ">
+                            <div class="text-xs">{{'Country' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.country"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.country}}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div class="text-xs">{{'Prefix' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.plate_number_prefix"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.plate_number_prefix}}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div class="text-xs">{{'Plate Number' | translate}}</div>
+                            <div *ngIf="selectedVehicleObject?.plate_number"
+                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                {{selectedVehicleObject?.plate_number}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                    <div>{{'Exit Time' | translate}}</div>
+                    <div class="flex flex-row flex-initial gap-2 items-center">
+                        <div class="flex flex-col gap-1 flex-initial ">
+                            <div
+                                class="border font-bold text-center border-solid border-gray-200 outime-space bg-white py-1">
+                                <ng-container *ngIf="selectedVehicleObject?.out_time">
+                                    {{selectedVehicleObject?.out_time | date:"dd/MM/yyyy"}}
+                                </ng-container>
+                                <ng-container *ngIf="!selectedVehicleObject?.out_time">
+                                    {{getCurrentDate() | date:"dd/MM/yyyy"}}
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 flex-initial">
+                            <div
+                                class="border font-bold text-center border-solid border-gray-200 outime-space bg-white py-1">
+                                <ng-container *ngIf="selectedVehicleObject?.out_time">
+                                    {{selectedVehicleObject?.out_time | date:'hh:mm a'}}
+                                </ng-container>
+                                <ng-container *ngIf="!selectedVehicleObject?.out_time">
+                                    {{getCurrentDate() | date:'hh:mm a'}}
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="selectedVehicleObject?.payment_status == paymentStatus.Success;else collection">
+        <div class="flex flex-row flex-initial">
+            <div [ngClass]="direction == 'ltr' ? 'rounded-l-md' : 'rounded-r-md'" class="w-5 h-10 primary-bg"></div>
+            <div class="flex flex-auto flex-col gap-2 bg-gray-100 bg-card shadow p-3">
+                <div class="flex flex-col flex-0 gap-1">
+                    <strong class="text-lg">{{'History' | translate}}</strong>
+                </div>
+                <div class="flex flex-col gap-1 flex-auto">
+                    <div class="flex flex-row flex-auto justify-between  items-center">
+                        <div class="text-secondary">{{'Payment Type' | translate}}</div>
+                        <div>
+                            {{translationService.getTranslatedField(selectedVehicleObject?.payment_mode,"name")}}
+                        </div>
+                    </div>
+                    <div class="flex flex-row flex-auto justify-between  items-center">
+                        <div class="text-secondary">{{'Invoice Number' | translate}}</div>
+                        <div>{{selectedVehicleObject?.invoice_no}}</div>
+                    </div>
+                    <div class="flex flex-row flex-auto  justify-between items-center">
+                        <div class="text-secondary">{{'Collected Amount' | translate}}</div>
+                        <div>KWD {{selectedVehicleObject?.invoice_amount | number : '1.3-3'}}</div>
+                    </div>
+                    <div class="flex flex-row flex-auto justify-between  items-center">
+                        <div class="text-secondary">{{'Collected Balance' | translate}}</div>
+                        <div>KWD {{getBalanceCollected() | number : '1.3-3'}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #noImage>
+    <img class="w-30 -mt-5 self-center md:self-start " src="assets/images/license-plate.png">
+</ng-template>
+
+<ng-template #collection>
+    <div style="direction: ltr !important;" class="flex flex-initial flex-col gap-2 p-3 w-2/3 self-end primary-bg rounded-md">
+        <div  class="flex flex-row flex-auto justify-between items-center">
+            <strong class="text-white">{{'Duration' | translate}}</strong>
+            <strong class="text-lg">{{transformMinute()}}</strong>
+        </div>
+        <div class="flex flex-row flex-auto justify-between items-center">
+            <strong class="text-white">{{'Total Amount' | translate}}</strong>
+            <strong class="text-lg">{{selectedVehicle?.invoice_amount | number : '1.3-3'}} KWD</strong>
+        </div>
+    </div>
+</ng-template>

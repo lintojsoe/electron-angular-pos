@@ -1,0 +1,28 @@
+<div class="relative flex flex-col w-full h-full">
+    <div class="flex flex-col sm:flex-row flex-auto items-center sm:items-start p-3">
+        <div
+            class="flex flex-0 items-center justify-center w-10 h-10 sm:mr-4 rounded-full text-warn-600 bg-warn-100 dark:text-warn-50 dark:bg-warn-600 ">
+            <mat-icon svgIcon="assignment_late" class="highlight-text-color"></mat-icon>
+        </div>
+        <div class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left ">
+            <div class="text-xl leading-6 font-medium ">{{heading}}</div>
+
+            <div class="text-secondary ">{{content}}</div>
+        </div>
+    </div>
+    <div
+        class="flex items-center justify-center sm:justify-end px-4 py-2 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10 ">
+        <button (click)="no()" mat-stroked-button
+            class="mat-focus-indicator text-red-500 rounded-lg min-h-0 h-9 fuse-mat-button-large mat-flat-button mat-button-base"
+            type="button">
+            <mat-icon class="save-cancel-btn text-red-500" matPrefix>close</mat-icon>
+            {{'No' }}
+        </button>
+        <button (click)="yes()" mat-flat-button
+            class="mat-focus-indicator text-white rounded-lg min-h-0 h-9 fuse-mat-button-large mat-flat-button mat-button-base"
+            type="button" [color]="'primary'">
+            <mat-icon class="save-cancel-btn mx-1" matPrefix>check</mat-icon>
+            {{'Yes'}}
+        </button>
+    </div>
+</div>

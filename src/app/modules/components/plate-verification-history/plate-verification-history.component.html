@@ -1,0 +1,191 @@
+<div class="flex flex-initial justify-between  px-6 items-center text-white bg-primary">
+    <div class="flex flex-row items-center h-16 min-h-16">
+        <mat-icon class="icon-size-7 text-current" [svgIcon]="'mat_outline:history'"></mat-icon>
+        <div class="ml-3 text-2xl font-semibold tracking-tight">{{
+            'History' | translate}}</div>
+    </div>
+    <mat-icon (click)="close()" class="icon-size-7 cursor-pointer text-current" [svgIcon]="'close'">
+    </mat-icon>
+</div>
+<div class="flex flex-0 flex-col p-3 m-3 md:m-0 ticket-container-height overflow-auto">
+    <div class="flex flex-col flex-auto overflow-y-auto">
+        <ng-container *ngIf="!loading;else inProgress">
+            <ng-container *ngIf="history?.length;else noTickets">
+                <ng-container *ngFor="let ticket of history">
+                    <div class="flex flex-0 flex-col hover:bg-blue-50 bg-card rounded-md shadow gap-2 mb-2 m-1 p-3 cursor-pointer"
+                        [ngClass]="selectedTicket?.id == ticket?.id ? 'bg-blue-100' : ''">
+                        <div class="flex-col md:flex-row flex flex-auto items-center gap-2">
+                            <div class="flex md:flex-50 md:items-center flex-col gap-2 bg-card rounded-md shadow p-2"
+                                [ngClass]="plateNumberCheckFirst(ticket) ? 'border-2 border-solid border-green-400' : ''">
+                                <div class="flex flex-initial gap-2 items-center">
+                                    <strong>{{'First Entry Call' | translate}}</strong>
+                                    <mat-icon *ngIf="plateNumberCheckFirst(ticket)" class="text-green-400"
+                                        svgIcon="mat_outline:verified"></mat-icon>
+                                </div>
+                                <mat-divider class="w-full"></mat-divider>
+                                <div class="w-50">
+                                    <ng-container *ngIf="ticket?.first_entry_log?.data?.image;else noImage">
+                                        <img [src]="ticket?.first_entry_log?.data?.image">
+                                    </ng-container>
+                                </div>
+                                <div class="flex flex-row flex-initial gap-1">
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Country' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.first_entry_log?.data?.country}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Prefix' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.first_entry_log?.data?.plate_number_prefix}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.first_entry_log?.data?.plate_number}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                                    <div class="flex flex-row flex-initial gap-2 items-center">
+                                        <div class="flex flex-col gap-1 flex-initial ">
+                                            <div class="text-xs">{{'In Time Date' | translate}}</div>
+                                            <div
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{ticket?.first_entry_log?.data?.in_time |
+                                                date:"dd/MM/yyyy" }}
+
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col gap-1 flex-initial">
+                                            <div class="text-xs">{{'In Time' | translate}}</div>
+                                            <div
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{ticket?.first_entry_log?.data?.in_time | date:'hh:mm a'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-auto flex-col md:items-center gap-2 bg-card rounded-md shadow p-2"
+                                [ngClass]="plateNumberCheckSecond(ticket) ? 'border-2 border-solid border-green-400' : ''">
+                                <div class="flex flex-initial gap-2 items-center">
+                                    <strong>{{'Second Entry Call' | translate}}</strong>
+                                    <mat-icon *ngIf="plateNumberCheckSecond(ticket)" class="text-green-400"
+                                        svgIcon="mat_outline:verified"></mat-icon>
+                                </div>
+                                <mat-divider class="w-full"></mat-divider>
+                                <div class="w-50">
+                                    <ng-container *ngIf="ticket?.second_entry_log?.data?.image;else noImage">
+                                        <img [src]="ticket?.second_entry_log?.data?.image">
+                                    </ng-container>
+                                </div>
+                                <div class="flex flex-row flex-initial gap-1">
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Country' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.second_entry_log?.data?.country}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Prefix' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.second_entry_log?.data?.plate_number_prefix}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                        <div
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{ticket?.second_entry_log?.data?.plate_number}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                                    <div class="flex flex-row flex-initial gap-2 items-center">
+                                        <div class="flex flex-col gap-1 flex-initial ">
+                                            <div class="text-xs">{{'In Time Date' | translate}}</div>
+                                            <div
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{ticket?.second_entry_log?.data?.in_time |
+                                                date:"dd/MM/yyyy" }}
+
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col gap-1 flex-initial">
+                                            <div class="text-xs">{{'In Time' | translate}}</div>
+                                            <div
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{ticket?.second_entry_log?.data?.in_time | date:'hh:mm a'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex-initial text-white p-3 rounded-md primary-bg flex flex-row justify-between items-center">
+                            <strong>{{'Approved Plate Number' | translate}}</strong>
+                            <div class="flex flex-row flex-initial gap-1">
+                                <div class="flex flex-col gap-1">
+                                    <div class="text-xs">{{'Country' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center text-black border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticket?.final_country}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <div class="text-xs">{{'Prefix' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center text-black border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticket?.final_plate_number_prefix}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center text-black border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticket?.final_plate_number}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <div *ngIf="checkPagination()" class="flex flex-row flex-auto justify-center items-center">
+                    <button [disabled]="isLoadingMore" (click)="loadMore()"
+                        class="fuse-mat-button-large h-10 bg-gray-100 flex bg-transparent min-w-0  min-h-0"
+                        mat-flat-button>
+                        <mat-spinner *ngIf="isLoadingMore" diameter="20"></mat-spinner>
+                        <ng-container *ngIf="!isLoadingMore">
+                            <mat-icon class="icon-size-4 mx-1" svgIcon="heroicons_outline:arrow-down">
+                            </mat-icon>
+                            <span>{{'Load More' | translate}}</span>
+                        </ng-container>
+                    </button>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+
+<ng-template #noTickets>
+    <div class="justify-center items-center flex flex-auto">
+        <app-empty-items [hideIcon]="true" [message]="'Nothing to display' | translate"></app-empty-items>
+    </div>
+</ng-template>
+
+<ng-template #noImage>
+    <img src="../../../../assets/images/license-plate.png">
+</ng-template>
+
+<ng-template #inProgress>
+    <app-tickets-skelton></app-tickets-skelton>
+</ng-template>

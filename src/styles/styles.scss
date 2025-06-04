@@ -1,0 +1,157 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+@import "mixins";
+@import "simple-keyboard/build/css/index.css";
+html,
+body {
+    width: 100%;
+    height: 100vh;
+}
+.primary-bg {
+    background-color: #14c5fc !important;
+    color: white !important;
+}
+
+.height-fit {
+    height: fit-content !important;
+}
+
+.text-primary {
+    color: #14c5fc !important;
+}
+
+mat-icon {
+    color: #64748b;
+}
+
+.payment-tab {
+    .mat-tab-body-content {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+}
+
+mat-paginator {
+    border: 0 !important;
+}
+
+.fuse-mat-rounded
+    .mat-tab-group
+    .mat-tab-header
+    .mat-tab-label-container
+    .mat-tab-list
+    .mat-tab-labels
+    .mat-tab-label.mat-tab-label-active {
+    border-radius: 6px !important;
+    background-color: #64c5fd !important;
+    color: white !important;
+
+    mat-icon {
+        color: white !important;
+    }
+}
+
+.container-height {
+    height: calc(100vh - 13.5rem) !important;
+    @include mobile() {
+        height: auto !important;
+    }
+}
+
+// .payment-container-height{
+//     height: calc(100vh - 9.5rem) !important;
+//     @include mobile() {
+//         height: auto !important;
+//     }
+// }
+
+.ticket-container-height {
+    height: calc(100vh - 3.5rem) !important;
+    @include mobile() {
+        height: auto !important;
+    }
+}
+
+.ticket-scroll-height {
+    max-height: 67vh !important;
+}
+
+.text-end {
+    text-align: end !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.success {
+    background-color: #2fdf75 !important;
+    color: white;
+}
+
+.error {
+    background-color: #ff4961 !important;
+    color: white;
+}
+
+.warning {
+    background-color: #00c0ef !important ;
+    color: white;
+}
+
+.notification {
+    color: #00c0ef !important;
+    background-color: white !important;
+}
+
+.notification .mat-simple-snackbar {
+    color: #00c0ef !important;
+}
+
+.notification .mat-simple-snackbar-action {
+    color: #00c0ef !important;
+}
+
+.mat-simple-snackbar {
+    color: white !important;
+}
+
+.mat-simple-snackbar-action {
+    color: white !important;
+}
+
+.fuse-vertical-navigation-item:hover {
+    background-color: rgba(156, 163, 175, var(--tw-bg-opacity)) !important;
+}
+
+.fuse-vertical-navigation-item-active {
+    background-color: #14c5fc !important;
+    color: white !important;
+}
+.fuse-vertical-navigation-item-active:hover {
+    background-color: #14c5fc !important;
+    color: white !important;
+}
+
+.no-padding {
+    .mat-dialog-container {
+        padding: 0 !important;
+    }
+}
+
+.language-menu {
+    .mat-menu-content {
+        padding: 0 !important;
+    }
+
+    button {
+        height: 38px !important;
+    }
+}

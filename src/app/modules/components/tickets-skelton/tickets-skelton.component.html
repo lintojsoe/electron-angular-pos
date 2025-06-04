@@ -1,0 +1,30 @@
+<div class="flex flex-col flex-auto overflow-y-auto">
+    <ng-container *ngFor="let ticket of [0,1]">
+        <div (click)="selectTickets(ticket)"
+            class="flex flex-0 flex-col bg-card rounded-md shadow gap-2 mb-2 m-1 p-3 cursor-pointer">
+            <div class="flex flex-col md:flex-row flex-auto md:justify-between gap-1">
+                <ngx-skeleton-loader [theme]="{ width: '120px', height: '10px' }">
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader [theme]="{ width: '40px', height: '10px' }">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="flex flex-col md:flex-row flex-auto md:justify-between gap-1">
+                <ngx-skeleton-loader [theme]="{ width: '100px', height: '10px' }">
+                </ngx-skeleton-loader>
+                <div class="flex flex-col flex-0 justify-end">
+                    <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                    </ngx-skeleton-loader>
+                    <ngx-skeleton-loader class="text-end" [theme]="{ width: '40px', height: '10px' }">
+                    </ngx-skeleton-loader>
+                </div>
+
+            </div>
+            <div class="flex flex-col md:flex-row flex-auto md:justify-between gap-1">
+                <ngx-skeleton-loader [theme]="{ width: '100px', height: '10px' }">
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+    </ng-container>
+</div>

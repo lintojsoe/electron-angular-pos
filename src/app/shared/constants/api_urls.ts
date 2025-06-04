@@ -1,0 +1,15 @@
+export enum API_URLS {
+    Tickets = '',
+    History = '/api/operation/tickets/cashier-report/',
+    Reasons = '/api/system/exit-reasons/',
+    CollectCash = '/api/operation/tickets/',
+    Gates = '/api/system/gates/',
+    searchTickets = '/api/operation/tickets/cashier-search/',
+    Users = '/api/system/users/',
+    Groups = '/api/system/groups/',
+    ActiveTickets = '/api/operation/tickets/active-tickets/',
+    PaymentModes = '/api/system/pay-modes/',
+    ClosingReport = '/api/operation/closing-reports/',
+    CreateLOT = '/api/operation/tickets/lost-ticket/',
+    PlateVerification = '/api/operation/vigilant-double-auth-logs/',
+}

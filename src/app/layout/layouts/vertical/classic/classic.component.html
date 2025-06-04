@@ -1,0 +1,100 @@
+<!-- Navigation -->
+<fuse-vertical-navigation [position]="getPosition" class="dark bg-white text-black print:hidden" [mode]="'over'"
+    [name]="'mainNavigation'" [navigation]="data.navigation.default" [opened]="!isScreenSmall">
+    <!-- Navigation header hook -->
+    <ng-container fuseVerticalNavigationContentHeader>
+        <!-- Logo -->
+        <div class="flex items-center primary-bg h-16 p-1 pl-4 mb-4">
+            <!-- Light version -->
+            <img class="dark:hidden w-8" src="assets/images/logo/pass-logo-white.png" alt="Logo image">
+            <!-- Dark version -->
+            <img class="hidden dark:flex w-8" src="assets/images/logo/pass-logo-white.png" alt="Logo image">
+        </div>
+    </ng-container>
+</fuse-vertical-navigation>
+
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-full min-w-0" [dir]="translationService.getDirection()">
+
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 items-center w-full primary-bg h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
+        <!-- Navigation toggle button -->
+        <div class="flex flex-row flex-initial items-center gap-4">
+            <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
+                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+            </button>
+            <div class="flex flex-col md:flex-row flex-initial gap-1 text-white  md:items-center">
+                <div class="flex flex-initial flex-row gap-2">
+                    <mat-icon class="icon-size-4 mx-1 mt-0.5 text-white" svgIcon="location_on"></mat-icon>
+                    <div class="text-white font-semibold">{{(user?.parking_place?.title) |
+                        uppercase}}</div>
+                </div>
+                <div class="border-l md:mx-2 border-solid md:block hidden md:h-5"></div>
+                <div class="flex flex-initial gap-2">
+                    <mat-icon class="icon-size-4 mx-1 mt-0.5 text-white" svgIcon="sensor_door"></mat-icon>
+                    <div class="flex flex-0 flex-row gap-2 items-center">
+                        <div class="text-white font-semibold"> {{'GATE ID : ' | translate}}</div>
+                        <div class="text-white font-semibold"> {{gateObject?.gate_no}}</div>
+                    </div>
+                </div>
+                <!-- <div class="border-l md:mx-2 border-solid md:block hidden md:h-5"></div> -->
+                <div class="hidden md:flex flex-initial gap-1 items-center">
+                    <mat-icon
+                        [title]="wbService.isConnected.value ? ('Gate is connected'  | translate): ('Gate is disconnected' | translate)"
+                        class="cursor-pointer mt-0.5 icon-size-4"
+                        [ngClass]="!wbService.isConnected.value ? 'text-red-600' : 'text-green-500'"
+                        svgIcon="mat_solid:circle"></mat-icon>
+                    <!-- <div class="text-white font-semibold">
+                        <span *ngIf="wbService.isConnected.value">{{'Gate Connected' | translate}}</span>
+                        <span *ngIf="!wbService.isConnected.value">{{'Gate Disconnected' | translate}}</span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Components -->
+        <div [ngClass]="translationService.getDirection() == 'ltr' ? 'ml-auto' : 'mr-auto'"
+            class="flex items-center pl-2 gap-2">
+            <div *ngIf="user?.last_login" class="flex flex-initial items-center flex-row gap-1 hidden md:flex">
+                <mat-icon svgIcon="access_time" class="icon-size-4 mx-1 mt-0.5 text-white"></mat-icon>
+                <div class="text-white font-semibold">{{'Logged in at' | translate}} <span
+                        class="mx-1 text-md">{{user?.last_login | date:"MMM d, y"}}</span><strong>{{user?.last_login |
+                        date:"h:mm a"}}</strong></div>
+            </div>
+            <!-- <button mat-button (click)="toggleLanguage()">
+                {{translationService.getOppositeLanguage()}}
+            </button> -->
+            <button [matMenuTriggerFor]="userActions" class="mx-3">
+                <span class="font-bold"> {{translationService.getCurrentLangaugeName()}}</span>
+            </button>
+
+            <mat-menu [xPosition]="'before'" #userActions="matMenu" class="language-menu">
+                <ng-container *ngFor="let lang of languages;let last = last">
+                    <button [ngClass]="translationService.getCurrentLang() == lang.id ? 'font-bold' : '' " mat-menu-item
+                        (click)="translationService.toggleLanguage(lang.id)">
+                        <mat-icon class="icon-size-5" [ngClass]="iconMargin"
+                            *ngIf="translationService.getCurrentLang() == lang.id" svgIcon="check"></mat-icon>
+                        <span>{{lang?.name}}</span>
+                    </button>
+                    <mat-divider *ngIf="!last" class="m-0"></mat-divider>
+                </ng-container>
+            </mat-menu>
+            <user-menu></user-menu>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex flex-col flex-auto">
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+    </div>
+
+    <!-- Footer -->
+    <div class="relative flex flex-0 items-center justify-end w-full h-14 px-4 md:px-6 z-49">
+        <span class="text-secondary mx-3">{{'Powered By' | translate}}</span>
+        <img class="w-5" src="assets/images/logo/pass-logo.png">
+    </div>
+
+</div>

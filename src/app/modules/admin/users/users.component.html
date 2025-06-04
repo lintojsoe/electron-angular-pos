@@ -1,0 +1,251 @@
+<div class="flex flex-row lg:p-16 lg:pt-6 p-3  flex-auto min-w-0 lg:justify-center">
+    <div class="flex p-3 bg-card rounded-lg shadow flex-col flex-auto min-w-0 lg:flex-90 table-height">
+        <div class="flex sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:py-4 sm:px-4 border-b bg-card ">
+            <div class="flex-1 min-w-0 flex items-center">
+                <mat-icon svgIcon="people" class="icon-size-8"></mat-icon>
+                <h2 class="text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{'Users' | translate}}
+                </h2>
+            </div>
+            <div>
+                <a (click)="addCustomer()" class="w-full text-white" mat-flat-button [color]="'primary'">
+                    <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                    <span class="ml-2">{{'Add User' | translate}}</span>
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-col flex-initial overflow-hidden">
+            <div class="overflow-x-auto sm:overflow-y-auto" cdkScrollable>
+                <!-- [ngClass]="customers?.length ? 'table-height' : 'h-50' "  -->
+                <table class="w-full min-w-320 md:min-w-0 table-fixed" mat-table matSort [dataSource]="users"
+                    [trackBy]="trackByFn">
+                    <ng-container matColumnDef="name">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Name' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-8 truncate" mat-cell *matCellDef="let customer">
+                            {{customer?.first_name}} {{customer?.last_name}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Email' | translate}}
+                                </div>
+                            </div>
+
+                        </th>
+                        <td class="pr-4" mat-cell *matCellDef="let customer">
+                            {{customer?.email}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="username">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Username' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-4" mat-cell *matCellDef="let customer">
+                            {{customer?.username}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="group">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef
+                            disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Group' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-4" mat-cell *matCellDef="let customer">
+                            {{getGroupsName(customer?.groups)}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="is_active">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5 w-12" mat-header-cell
+                            *matHeaderCellDef disableClear>
+
+                            <div class="flex flex-col flex-auto">
+                                <div>
+                                    {{'Active' | translate}}
+                                </div>
+                            </div>
+                        </th>
+                        <td class="pr-4 w-12" mat-cell *matCellDef="let customer">
+                            <mat-icon *ngIf="customer?.is_active" class="text-green-500" svgIcon="check"></mat-icon>
+                            <mat-icon *ngIf="!customer?.is_active" class="text-red-500" svgIcon="close"></mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th class="primary-bg-color dark:bg-black dark:bg-opacity-5 border-right-radius"
+                            style="text-align: end !important;" mat-header-cell *matHeaderCellDef disableClear>
+                            {{'Actions' | translate}}
+                        </th>
+                        <td class="pr-4 action-header" mat-cell *matCellDef="let customer">
+                            <div class="flex flex-row flex-auto overflow-hidden action-body justify-end">
+                                <div class="flex flex-row action-btn-container" fxFlex="0 0 auto">
+                                    <button mat-icon-button type="button" matSuffix [matMenuTriggerFor]="userActions">
+                                        <mat-icon svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                    </button>
+                                </div>
+                                <mat-menu [xPosition]="'before'" #userActions="matMenu">
+                                    <button mat-menu-item (click)="updateUser(customer)">
+                                        <div class="flex flex-row flex-initial gap-x-2 items-center">
+                                            <mat-icon svgIcon="edit_note"></mat-icon>
+                                            <strong>{{'Update' | translate}}</strong>
+                                        </div>
+                                    </button>
+                                    <mat-divider class="my-2"></mat-divider>
+                                    <button mat-menu-item (click)="deleteUser(customer?.id)">
+                                        <div class="flex flex-row flex-initial gap-x-2 items-center">
+                                            <mat-icon svgIcon="delete"></mat-icon>
+                                            <strong>{{'Delete' | translate}}</strong>
+                                        </div>
+                                    </button>
+                                    <!-- <mat-divider class="my-2"></mat-divider>
+                                    <button mat-menu-item (click)="visibility(customer)">
+                                        <div class="flex flex-row flex-initial gap-x-2 items-center">
+                                            <mat-icon *ngIf="!customer?.is_active" class="text-green-500" svgIcon="check"></mat-icon>
+                                            <mat-icon *ngIf="customer?.is_active" class="text-red-500" svgIcon="close"></mat-icon>
+                                            <strong *ngIf="customer?.is_active">{{'Disable' | translate}}</strong>
+                                            <strong *ngIf="!customer?.is_active">{{'Enable' | translate}}</strong>
+                                        </div>
+                                    </button> -->
+                                </mat-menu>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr class="shadow" mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+                    <tr class="mat-row" *matNoDataRow [ngClass]="isLoading? 'hidden' : ''">
+                        <td class="mat-cell border-b-0">{{'No data found' | translate}}</td>
+                    </tr>
+                    <tr [ngClass]="isLoading? 'hidden' : ''" class="h-18 hover:bg-hover" mat-row *matRowDef="let customer; columns: columns;">
+                    </tr>
+                </table>
+                <div *ngIf="isLoading" class="mt-2">
+                    <ngx-skeleton-loader [count]="page?.pageSize" appearance="line"
+                        [theme]="{height: '60px', 'border-radius': '0px','margin-bottom': '1px'}"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <mat-paginator *ngIf="users?.length"
+                class="sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 self-end"
+                (page)="handlePageEvent($event)" [length]="page?.length" [pageSize]="page?.pageSize"
+                [showFirstLastButtons]="true" [pageSizeOptions]="page?.pageSizeOptions" [pageIndex]="page?.pageIndex">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
+
+
+<fuse-drawer class="md:w-120 md:min-w-120 w-full min-w-full" fixed [mode]="'over'" [name]="'createUser'"
+    [position]="translationService.getDirection() == 'ltr' ? 'right' : 'left'" #createUser>
+    <form class="flex flex-col w-full overflow-auto bg-card" [formGroup]="form">
+        <div class="flex flex-initial justify-between  px-6 items-center text-white bg-primary">
+            <div class="flex flex-row items-center h-16 min-h-16">
+                <mat-icon class="icon-size-7 text-current" svgIcon="manage_accounts"></mat-icon>
+                <div class="ml-3 text-2xl font-semibold tracking-tight">{{ !getUserDetails ? ( 'Add Users' | translate)
+                    :
+                    ('Update User' | translate)}}</div>
+            </div>
+            <mat-icon (click)="createUser.toggle()" class="icon-size-7 cursor-pointer text-current" [svgIcon]="'close'">
+            </mat-icon>
+        </div>
+
+        <div class="flex flex-col p-6">
+            <div class="flex flex-col md:flex-row flex-auto gap-2">
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'First Name' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input [attr.autocomplete]="'off'" type="text" formControlName="first_name" matInput>
+                    <mat-error *ngIf="form.get('first_name').hasError('required')">
+                        {{'First Name is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'Last Name' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input [attr.autocomplete]="'off'" type="text" formControlName="last_name" matInput>
+                    <mat-error *ngIf="form.get('last_name').hasError('required')">
+                        {{'Last Name is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="example-full-width">
+                <mat-label>{{'Email' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text" formControlName="email" matInput>
+                <mat-error *ngIf="form.get('email').hasError('required')">
+                    {{'Email is required' | translate}}
+                </mat-error>
+                <mat-error *ngIf="form.get('email').hasError('email')">
+                    {{'Invalid email' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'Group' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <mat-select formControlName="group_ids" multiple>
+                    <mat-option *ngFor="let group of groups" [value]="group?.id">
+                        {{group?.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('group_ids').hasError('required')">
+                    {{'Group is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>{{'Username' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text" formControlName="username" matInput>
+                <mat-error *ngIf="form.get('username').hasError('required')">
+                    {{'Username is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>{{'Password' | translate}}
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="password" formControlName="password" matInput #passwordField>
+                <button mat-icon-button type="button"
+                    (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                    matSuffix>
+                    <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                    <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                        [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                </button>
+
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row flex-initial justify-end  p-6">
+            <button type="submit" (click)="save()"
+                class="fuse-mat-button-large w-full md:w-auto text-white rounded-md min-h-0" mat-flat-button
+                [color]="'primary'">
+                <mat-icon svgIcon="save"></mat-icon>
+                <span class="hidden md:block">
+                    {{'Save' | translate}}
+                </span>
+            </button>
+        </div>
+    </form>
+
+</fuse-drawer>

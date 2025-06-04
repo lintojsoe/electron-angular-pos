@@ -1,0 +1,18 @@
+@import "styles/mixins";
+:host {
+    display: flex;
+    flex-direction: column;
+
+    ::ng-deep .plate-number .mat-form-field-label {
+        overflow: unset !important;
+    }
+    @include desktop() {
+        .center-container {
+            width: 70% !important;
+        }
+    }
+
+    .border-close-btn {
+        border: 1px solid #64c5fd !important;
+    }
+}

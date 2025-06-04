@@ -1,0 +1,78 @@
+<div class="flex-initial grid grid-cols-1 gap-2 overflow-y-auto">
+    <div class="col-span-1 sm:col-span-1 gap-y-2 flex flex-col"
+        *ngFor="let selectedVehicle of [0,1];let i = index;let last =last">
+        <div [ngClass]="last ? 'mb-1' : ''" class="flex flex-0 flex-col gap-1 card-padding cursor-pointer">
+            <div class="bg-card rounded-xl shadow flex md:flex-row md:justify-between flex-col px-4 flex-auto gap-2">
+                <div class="flex md:flex-row flex-col flex-auto gap-2 py-3">
+                    <div class="flex flex-col flex-0 ">
+                        <ngx-skeleton-loader [theme]="{ width: '120px', height: '100px' }">
+                        </ngx-skeleton-loader>
+                        <div class="flex flex-row flex-initial gap-1">
+                            <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                            </ngx-skeleton-loader>
+                            <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                            </ngx-skeleton-loader>
+                            <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                            </ngx-skeleton-loader>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 flex-auto p-1" style="height: fit-content !important;">
+                        <div class="flex flex-row flex-auto justify-between">
+                            <div class="flex flex-col md:flex-row flex-0 gap-1">
+                                <div>
+                                    <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                                    </ngx-skeleton-loader>
+                                </div>
+                                <div>
+                                    <ngx-skeleton-loader [theme]="{ width: '120px', height: '10px' }">
+                                    </ngx-skeleton-loader>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row flex-0 gap-1">
+                                <div class="text-secondary">
+                                    <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                                    </ngx-skeleton-loader>
+                                </div>
+                                <div class="text-right">
+                                    <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                                    </ngx-skeleton-loader>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-row flex-auto justify-between  items-center">
+                            <div class="text-secondary">
+                                <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                            <div>
+                                <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                        </div>
+                        <div class="flex flex-row flex-auto justify-between  items-center">
+                            <div class="text-secondary">
+                                <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                            <div>
+                                <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                        </div>
+                        <div class="flex flex-row flex-auto justify-between  items-center">
+                            <div class="text-secondary">
+                                <ngx-skeleton-loader [theme]="{ width: '80px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                            <div>
+                                <ngx-skeleton-loader [theme]="{ width: '50px', height: '10px' }">
+                                </ngx-skeleton-loader>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="absolute inset-0 min-w-0 text-center overflow-auto print:overflow-visible" cdkScrollable  #pdfTable>
+
+    <!-- Main -->
+    <div class="inline-block p-4 text-left print:p-0" id="contentToConvert">
+
+        <!-- Invoice -->
+        <div
+            class="p-8 w-240 rounded-2xl shadow bg-card print:w-full print:rounded-none print:shadow-none print:bg-transparent">
+            <div
+                class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between sm:py-2 mb-4 border-b bg-card dark:bg-transparent">
+                <div class="flex-1 min-w-0">
+                    <div class="flex flex-row justify-between items-center">
+                        <div class="flex flex-initial items-center">
+                            <h2 class="text-3xl  font-bold tracking-tight  leading-7 sm:leading-10  truncate">
+                                {{ 'Closing Report' }}
+                            </h2>
+                        </div>
+                        <mat-icon  class="cursor-pointer print:hidden" (click)="dialogRef.close()" svgIcon="close"></mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-start justify-between">
+                <div class="grid grid-cols-2 gap-x-32 text-md">
+                    <div class="font-medium col-span-2 tracking-tight text-secondary">Point of Sale and Payment Report
+                    </div>
+                    <div class="font-medium tracking-tight text-secondary">Date</div>
+                    <div class="font-medium">Aug 19, 2022</div>
+                    <div class="font-medium tracking-tight text-secondary">Report printed by</div>
+                    <div class="font-medium">Linto</div>
+                    <div class="font-medium tracking-tight text-secondary">Start of period</div>
+                    <div class="font-medium">Aug 20,2021</div>
+                    <div class="font-medium tracking-tight text-secondary">End of period</div>
+                    <div class="font-medium">Aug 20,2021</div>
+                    <div class="font-medium tracking-tight text-secondary">Register</div>
+                    <div class="font-medium">Default POS</div>
+                    <div class="font-medium tracking-tight text-secondary">Location</div>
+                    <div class="font-medium">Main Warehouse</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-x-1 mt-16">
+                <!-- Columns -->
+                <div class="col-span-2 font-medium text-md  text-secondary">Date</div>
+                <div class="col-span-5 font-medium text-md text-center text-secondary">Paid By</div>
+                <div class="col-span-5 font-medium text-md  text-end text-secondary">Paid</div>
+
+                <!-- Divider -->
+                <div class="col-span-12 my-1 border-b"></div>
+
+                <!-- Item -->
+                <div class="col-span-2 self-center">11/2/2021</div>
+                <div class="col-span-5 self-center text-center">Cash</div>
+                <div class="col-span-5 self-center text-end">53 KWD</div>
+
+                <div class="col-span-12 my-1 border-b"></div>
+
+                <div class="col-span-2 self-center ">11/2/2021</div>
+                <div class="col-span-5 self-center text-center">Card</div>
+                <div class="col-span-5 self-center text-end">53 KWD</div>
+
+                <div class="col-span-12 my-1 border-b"></div>
+                <div class="col-span-12 font-bold text-end">Total : 1000 KWD</div>
+                <div class="col-span-12 my-1 border-b"></div>
+
+            </div>
+
+            <div class="text-secondary my-8 font-bold text-lg text-end">Grand Total : 2000 KWD</div>
+
+            <table class="prose table  mt-8 max-w-full w-full leading-3">
+                <thead>
+                    <th>Collection</th>
+                    <th class="text-end">Default POS</th>
+                </thead>
+                <tbody class="text-md ">
+                    <tr>
+                        <td>
+                            Opening balance
+                        </td>
+                        <td class="text-end">
+                            0.00 KWD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">
+                            Opened : Linto Jose
+                        </td>
+                        <td class="text-end">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Cash Collection
+                        </td>
+                        <td class="text-end">
+                            1000 KWD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Card Collection
+                        </td>
+                        <td class="text-end">
+                            1000 KWD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Expenses
+                        </td>
+                        <td class="text-end">
+                            1000 KWD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">
+                            Closed : Linto Jose
+                        </td>
+                        <td class="text-end">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Closing balance
+                        </td>
+                        <td class="text-end">
+                            1000 KWD
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>

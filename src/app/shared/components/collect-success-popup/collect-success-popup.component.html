@@ -1,0 +1,62 @@
+<div class="relative flex flex-col w-full h-full">
+    <div class="flex flex-col sm:flex-row flex-auto items-center sm:items-start p-3">
+        <div
+            class="flex flex-0 items-center justify-center w-10 h-10 sm:mr-4 rounded-full text-warn-600 bg-warn-100 dark:text-warn-50 dark:bg-warn-600 ">
+            <mat-icon svgIcon="assignment_late" class="highlight-text-color"></mat-icon>
+        </div>
+        <div class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left ">
+            <div class="text-xl leading-6 font-medium ">{{'Confirm Payment' | translate}}</div>
+
+            <div class="text-secondary ">{{'Are you sure, do you want to continue ?' | translate}}</div>
+        </div>
+    </div>
+    <div class="flex items-center justify-center p-4 space-x-3">
+        <button [disabled]="loading" (click)="dismiss()" mat-stroked-button
+            class="mat-focus-indicator text-red-500 rounded-lg min-h-0 h-9 fuse-mat-button-large mat-flat-button mat-button-base"
+            type="button">
+            <mat-icon class="save-cancel-btn text-red-500" matPrefix>close</mat-icon>
+            <span class="hidden md:flex"> {{'Dismiss' | translate}}</span>
+        </button>
+        <button [disabled]="loading" (click)="close()" class="fuse-mat-button-large text-white rounded-lg min-h-0 h-9 "
+            mat-flat-button [color]="'primary'">
+            <mat-icon *ngIf="!loading" class="text-primary mx-1" svgIcon="check"></mat-icon>
+            <span *ngIf="!loading" class="hidden md:flex"> {{'Confirm' | translate}}</span>
+            <mat-progress-spinner *ngIf="loading" [diameter]="24" [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </button>
+    </div>
+</div>
+<!-- <div class="relative flex flex-col w-full h-full p-6">
+    <div class="flex flex-col flex-auto">
+        <div class="flex flex-row items-center gap-1 justify-center">
+            <div class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                {{collectionObject.selectedTicket?.country}}
+            </div>
+            <div class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                {{collectionObject.selectedTicket?.plate_number_prefix}}
+            </div>
+            <div class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                {{collectionObject.selectedTicket?.plate_number}}
+            </div>
+        </div>
+        <div class="flex flex-row items-center gap-2 justify-between">
+            <div class="text-secondary">{{'Amount' | translate}}</div>
+            <div class="font-bold text-lg">
+                {{collectionObject?.selectedTicket?.invoice_amount | number : '1.3-3'}} KWD
+            </div>
+        </div>
+        <div class="flex flex-row items-center gap-2 justify-between border-b border-solid pb-2">
+            <div class="text-secondary">{{'Collected Amount' | translate}}</div>
+            <div class="font-bold text-lg">
+                {{data?.cash | number : '1.3-3'}} KWD
+            </div>
+        </div>
+        <div class="flex flex-row items-center gap-2 justify-between pt-2">
+            <div class="text-secondary">{{'Change' | translate}}</div>
+            <div class="font-bold text-lg">
+                {{data?.balance | number : '1.3-3'}} KWD
+            </div>
+        </div>
+    </div>
+
+</div> -->

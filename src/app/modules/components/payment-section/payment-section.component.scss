@@ -1,0 +1,32 @@
+:host {
+    ::ng-deep .hg-button {
+        padding: 2em !important;
+    }
+
+    ::ng-deep .hg-standardBtn span {
+        font-size: 24px !important;
+    }
+
+    .border-payment-btn {
+        border: 1px solid #64c5fd !important;
+    }
+
+    .border-payment-btn:hover {
+        color: white !important;
+        background-color: #64c5fd !important;
+        mat-icon {
+            color: white !important;
+        }
+    }
+    ::ng-deep .hg-standardBtn {
+        margin-right: 5px !important;
+    }
+
+    ::ng-deep .hg-functionBtn {
+        margin-right: 5px !important;
+    }
+
+    ::ng-deep .hg-button-bksp {
+        width: 40px !important;
+    }
+}

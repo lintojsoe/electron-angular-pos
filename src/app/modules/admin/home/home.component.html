@@ -1,0 +1,77 @@
+<div *ngIf="isManager"
+    [ngClass]="direction == 'ltr' ? 'right-0 rounded-l-lg' : 'left-0 rounded-r-lg'"
+    class="fixed flex  gap-1 items-center justify-center  w-10 h-10 shadow-lg  z-999 cursor-pointer primary-bg bg-opacity-90 print:hidden"
+    style="top: 238px;z-index: 0 !important;" (click)="toggleHistory(true)">
+    <mat-icon class="mx-1 text-white" [svgIcon]="'heroicons_outline:ticket'"></mat-icon>
+</div>
+<div class="flex flex-row flex-auto min-w-0 lg:justify-center" [formGroup]="form">
+    <div class="flex p-3 flex-col flex-auto min-w-0 ">
+        <div class="flex flex-col md:flex-row flex-auto gap-2 md:gap-2">
+            <div class="flex flex-col flex-auto">
+                <div class="flex md:flex-row flex-col flex-0 gap-1.5">
+                    <div class="flex flex-row gap-1.5 items-center flex-auto md:flex-0">
+                        <mat-form-field class="plate-number flex-auto md:flex-0">
+                            <input type="text" data-placeholder="{{'Country' | translate}}" formControlName="country"
+                                [attr.autocomplete]="'off'" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="plate-number flex-auto md:flex-0">
+                            <input type="text" data-placeholder="{{'Prefix' | translate}}"
+                                formControlName="plate_number_prefix" [attr.autocomplete]="'off'" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-row gap-1.5 items-center flex-auto">
+                        <mat-form-field class="w-full">
+                            <input formControlName="plate_number" data-placeholder="{{'Plate Number' | translate}}"
+                                type="text" [attr.autocomplete]="'off'" matInput>
+                        </mat-form-field>
+                        <div class="flex flex-auto gap-1 flex-row md:flex-0 mb-4">
+                            <button [disabled]="isLoading" (click)="searchCar()"
+                                class="fuse-mat-button-large w-full md:w-auto text-white rounded-md min-h-0"
+                                mat-flat-button [color]="'primary'">
+                                <mat-icon *ngIf="!isLoading" class="mx-1" svgIcon="manage_search"></mat-icon>
+                                <mat-progress-spinner *ngIf="isLoading" [diameter]="24" [mode]="'indeterminate'">
+                                </mat-progress-spinner>
+                            </button>
+                            <button [disabled]="isLoading" *ngIf="isReset" (click)="resetAll()"
+                                class="fuse-mat-button-large flex bg-transparent border-close-btn w-12 min-w-0 rounded-md min-h-0"
+                                mat-flat-button>
+                                <mat-icon class="mx-1" svgIcon="close"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="selectedVehicle && !isLoading">
+                    <app-vehicle-detail [selectedVehicle]="selectedVehicle">
+                    </app-vehicle-detail>
+                </ng-container>
+
+                <ng-container *ngIf="!selectedVehicle  && isSearch">
+                    <app-search-results [searchValues]="form?.value" [page]="page" [searchTicketCount]="searchTicketCount" [isLoading]="loadingSearch"
+                        (paginationHandler)="paginateSearchResults($event)" [isSearch]="isLoading"
+                        (selectVehicleHandler)="selectVehicle($event)" [vehicleList]="vehicleList">
+                    </app-search-results>
+                </ng-container>
+
+                <ng-container *ngIf="!selectedVehicle && !isSearch">
+                    <app-live-tickets-list [isSearch]="isLoading" (selectVehicleHandler)="selectVehicle($event)"
+                        [vehicleList]="getLiveTicketList()">
+                    </app-live-tickets-list>
+                </ng-container>
+
+            </div>
+            <div class="flex flex-col flex-auto gap-2">
+                <app-payment-section (afterCollection)="afterCollection($event)" [selectedTicket]="selectedVehicle">
+                </app-payment-section>
+            </div>
+            <!-- <div *ngIf="isManager" class="md:flex flex-col flex-auto gap-2 hidden">
+                <app-tickets (selectTicketHandler)="selectTicket($event)"></app-tickets>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+<fuse-drawer *ngIf="isManager" class="md:w-120 md:min-w-120 w-full min-w-full" fixed [mode]="'over'"
+    [name]="'historyPopup'" [position]="translationService.getDirection() == 'ltr' ? 'right' : 'left'" #historyPopup>
+    <app-tickets (closeHandler)="toggleHistory(false)" (selectTicketHandler)="selectTicket($event)"></app-tickets>
+</fuse-drawer>

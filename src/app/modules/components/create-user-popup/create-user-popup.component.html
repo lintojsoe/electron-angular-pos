@@ -1,0 +1,87 @@
+<div class="flex flex-col w-full overflow-auto bg-card" [formGroup]="form">
+    <div class="flex flex-initial justify-between  px-6 items-center text-white bg-primary">
+        <div class="flex flex-row items-center h-16 min-h-16">
+            <mat-icon class="icon-size-7 text-current" [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+            <div class="ml-3 text-2xl font-semibold tracking-tight">{{ userDetails ? ( 'Add Users' | translate) : ('Update Customer' | translate)}}</div>
+        </div>
+        <mat-icon (click)="close()" class="icon-size-7 cursor-pointer text-current" [svgIcon]="'close'">
+        </mat-icon>
+    </div>
+
+    <div class="flex flex-col p-6">
+        <div class="flex flex-col md:flex-row flex-auto gap-2">
+            <mat-form-field class="flex-auto">
+                <mat-label>{{'First Name' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text" formControlName="first_name" matInput>
+                <mat-error *ngIf="form.get('first_name').hasError('required')">
+                    {{'First Name is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>{{'Last Name' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input [attr.autocomplete]="'off'" type="text"  formControlName="last_name" matInput>
+                <mat-error *ngIf="form.get('last_name').hasError('required')">
+                    {{'Last Name is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <mat-form-field class="example-full-width">
+            <mat-label>{{'Email' | translate}}
+                <span class="text-red-600">*</span>
+            </mat-label>
+            <input [attr.autocomplete]="'off'" type="text"  formControlName="email" matInput>
+            <mat-error *ngIf="form.get('email').hasError('required')">
+                {{'Email is required' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{'Group' | translate}}
+                <span class="text-red-600">*</span>
+            </mat-label >
+            <mat-select  formControlName="group_ids">
+            </mat-select>
+            <mat-error *ngIf="form.get('group_ids').hasError('required')">
+                {{'Group is required' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>{{'Username' | translate}}
+                <span class="text-red-600">*</span>
+            </mat-label>
+            <input [attr.autocomplete]="'off'" type="text"  formControlName="username" matInput>
+            <mat-error *ngIf="form.get('username').hasError('required')">
+                {{'Username is required' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>{{'Password' | translate}}
+                <span class="text-red-600">*</span>
+            </mat-label>
+            <input [attr.autocomplete]="'off'" type="password"  formControlName="password" matInput #passwordField>
+            <button mat-icon-button type="button"
+                (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                matSuffix>
+                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                    [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('password').hasError('required')">
+                {{'Password is required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="flex flex-row flex-initial justify-end  p-6">
+        <button class="fuse-mat-button-large w-full md:w-auto text-white rounded-md min-h-0" mat-flat-button
+            [color]="'primary'">
+            <mat-icon svgIcon="save"></mat-icon>
+            <span class="hidden md:block">
+                {{'Save' | translate}}
+            </span>
+        </button>
+    </div>
+</div>

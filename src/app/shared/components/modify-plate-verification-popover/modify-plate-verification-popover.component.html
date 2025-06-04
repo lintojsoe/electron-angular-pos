@@ -1,0 +1,183 @@
+<div class="flex flex-col flex-initial gap-2">
+    <div class="flex flex-row justify-between items-center border-b pb-2">
+        <div class="text-primary text-lg items-center flex flex-row flex-0">
+            <mat-icon class="mx-1 text-primary" svgIcon="heroicons_outline:ticket"></mat-icon>
+            <div> {{'Modify' | translate}}</div>
+        </div>
+        <mat-icon class="cursor-pointer" (click)="close(false)" svgIcon="mat_outline:close"></mat-icon>
+    </div>
+
+    <div class="flex md:flex-row flex-col flex-auto gap-2">
+        <div class="flex flex-col flex-initial lg:flex-50 gap-2">
+            <div class="flex flex-col flex-auto gap-2  bg-card shadow rounded-md p-3">
+                <strong>{{'First Entry Call' | translate}}</strong>
+                <mat-divider></mat-divider>
+                <div class="flex flex-col md:flex-row flex-auto gap-2 md:gap-10">
+                    <div class="flex flex-col flex-initial gap-2 p-2">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex flex-initial items-center">
+                                <ng-container *ngIf="ticketObject?.first_entry_log?.data?.image;else noImage">
+                                    <img class="w-100" [src]="ticketObject?.first_entry_log?.data?.image">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto gap-2 items-center justify-center">
+                        <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                            <div class="flex flex-row flex-initial gap-2 items-center">
+                                <div class="flex flex-col gap-1 flex-initial ">
+                                    <div class="text-xs">{{'Country' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.first_entry_log?.data?.country}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div class="text-xs">{{'Prefix' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.first_entry_log?.data?.plate_number_prefix}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.first_entry_log?.data?.plate_number}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                            <div class="flex flex-row flex-initial gap-2 items-center">
+                                <div class="flex flex-col gap-1 flex-initial ">
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.first_entry_log?.data?.in_time | date:"dd/MM/yyyy"}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.first_entry_log?.data?.in_time | date:'hh:mm a'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto gap-2  bg-card shadow rounded-md p-3">
+                <strong>{{'Second Entry Call' | translate}}</strong>
+                <mat-divider></mat-divider>
+                <div class="flex flex-col md:flex-row flex-auto gap-2 md:gap-10">
+                    <div class="flex flex-col flex-initial gap-2 p-2">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex flex-initial items-center">
+                                <ng-container *ngIf="ticketObject?.second_entry_log?.data?.image;else noImage">
+                                    <img class="w-100" [src]="ticketObject?.second_entry_log?.data?.image">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto gap-2 items-center justify-center">
+                        <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                            <div class="flex flex-row flex-initial gap-2 items-center">
+                                <div class="flex flex-col gap-1 flex-initial ">
+                                    <div class="text-xs">{{'Country' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.second_entry_log?.data?.country}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div class="text-xs">{{'Prefix' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.second_entry_log?.data?.plate_number_prefix}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div class="text-xs">{{'Plate Number' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.second_entry_log?.data?.plate_number}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex md:flex-row flex-col md:items-center gap-2 md:justify-between">
+                            <div class="flex flex-row flex-initial gap-2 items-center">
+                                <div class="flex flex-col gap-1 flex-initial ">
+                                    <div class="text-xs">{{'In Time Date' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.second_entry_log?.data?.in_time | date:"dd/MM/yyyy"}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-initial">
+                                    <div class="text-xs">{{'In Time' | translate}}</div>
+                                    <div
+                                        class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                        {{ticketObject?.second_entry_log?.data?.in_time | date:'hh:mm a'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="flex flex-col flex-auto gap-2  bg-card shadow rounded-md p-3" [formGroup]="form">
+            <strong>{{'Update Plate Number' | translate}}</strong>
+            <mat-divider></mat-divider>
+            <div class="flex flex-col md:flex-row flex-initial md:gap-2 md:items-center">
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'Country' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input formControlName="country" [attr.autocomplete]="'off'" type="text" matInput>
+                    <mat-error *ngIf="form.get('country').hasError('required')">
+                        {{'Country is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'Prefix' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input formControlName="plate_number_prefix" [attr.autocomplete]="'off'" type="text" matInput>
+                    <mat-error *ngIf="form.get('plate_number_prefix').hasError('required')">
+                        {{'Prefix is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'Plate Number' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input formControlName="plate_number" [attr.autocomplete]="'off'" type="text" matInput>
+                    <mat-error *ngIf="form.get('plate_number').hasError('required')">
+                        {{'Plate Number is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row justify-end flex-auto">
+                <!-- [disabled]="form.invalid || form.disabled" -->
+                <button (click)="updatePlateNumber()" [disabled]="form.invalid || form.disabled" type="submit"
+                    class="text-white rounded min-h-0 " mat-flat-button [color]="'primary'">
+                    <mat-icon *ngIf="!form.disabled" class="text-white mx-1" svgIcon="mat_outline:save"></mat-icon>
+                    <span *ngIf="!form.disabled">
+                        {{'Update' | translate}}
+                    </span>
+                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<ng-template #noImage>
+    <img class="w-36 -mt-5 -mb-2 self-center md:self-start" src="assets/images/license-plate.png">
+</ng-template>

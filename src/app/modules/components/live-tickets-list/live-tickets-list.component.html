@@ -1,0 +1,105 @@
+<div class="flex flex-col flex-initial bg-card p-3 rounded-lg shadow gap-2 container-height overflow-auto">
+    <div class="flex flex-row flex-initial justify-between items-center text-primary text-lg border-b pb-2">
+        <div class="items-center flex flex-row flex-0">
+            <mat-icon class="mx-1 text-primary" svgIcon="heroicons_outline:ticket"></mat-icon>
+            <div> {{'Tickets' | translate}}</div>
+        </div>
+        <div class="flex flex-initial bg-gray-400 p-1 px-3 text-white rounded-md">
+            <span class="text-sm"> {{vehicleList?.length}}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-2 overflow-y-auto"
+        [ngClass]="!vehicleList?.length ? 'flex-auto' : 'flex-initial '">
+
+        <ng-container *ngIf="!isSearch;else loading">
+            <ng-container *ngIf="vehicleList?.length;else noVehicleFound">
+                <div class="col-span-1 sm:col-span-1 gap-y-2 flex flex-col"
+                    *ngFor="let vehicle of vehicleList;let i = index;let last =last">
+                    <div [ngClass]="last ? 'mb-1' : ''" class="flex flex-0 flex-col gap-1 card-padding cursor-pointer">
+                        <div (click)="selectVehilce(vehicle)"
+                            class="bg-card rounded-xl hover:bg-blue-50 shadow flex md:flex-row md:justify-between flex-col px-4 flex-auto gap-2">
+                            <div class="flex md:flex-row flex-col flex-auto gap-2 py-3">
+                                <div class="flex flex-col flex-0">
+                                    <ng-container *ngIf="vehicle?.entry_image || vehicle?.exit_image;else noImage">
+                                        <div class="w-30 h-24 flex flex-initial items-center">
+                                            <img alt="Plate number image"
+                                                [src]="vehicle?.entry_image ? vehicle?.entry_image : vehicle?.exit_image">
+                                        </div>
+                                    </ng-container>
+                                    <div class="flex flex-row flex-initial gap-1">
+                                        <div *ngIf="vehicle?.country"
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{vehicle?.country}}
+                                        </div>
+                                        <div *ngIf="vehicle?.plate_number_prefix"
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{vehicle?.plate_number_prefix}}
+                                        </div>
+                                        <div *ngIf="vehicle?.plate_number"
+                                            class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                            {{vehicle?.plate_number}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-auto p-1" style="height: fit-content !important;">
+                                    <div
+                                        class="flex flex-row primary-bg text-sm  px-3 rounded-md p-0.5 text-white self-end flex-0 gap-1 justify-between md:justify-start">
+                                        <div class="text-white items-center flex flex-row">{{'In Time ' | translate}}
+                                            <span class="hidden md:flex">:</span>
+                                        </div>
+                                        <div> {{vehicle?.in_time | date:"dd/MM/yyyy"}},
+                                            <span class="font-bold text-md ">{{vehicle?.in_time | date:'hh:mm a'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex md:flex-row flex-col flex-auto md:justify-between">
+                                        <div class="flex flex-row flex-0 gap-1 justify-between md:justify-start">
+                                            <div class="text-secondary flex flex-row">{{'Gate' | translate}}<span
+                                                    class="hidden md:flex">:</span></div>
+                                            <div class="text-right">{{vehicle?.entry_gate?.gate_no}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row flex-auto justify-between  items-center">
+                                        <div class="text-secondary">{{'Parking Fees' | translate}}</div>
+                                        <div>KWD {{vehicle?.amount_breakdown?.parking_fee | number : '1.3-3'}}</div>
+                                    </div>
+                                    <div class="flex flex-row flex-auto  justify-between items-center">
+                                        <div class="text-secondary">{{'Pass Fees' | translate}}</div>
+                                        <div>KWD {{vehicle?.amount_breakdown?.pass_fee | number : '1.3-3'}}</div>
+                                    </div>
+                                    <div class="flex flex-row flex-auto justify-between  items-center">
+                                        <div class="text-secondary text-lg font-bold">{{'Total' | translate}}
+                                        </div>
+                                        <div class="text-lg font-bold">KWD {{vehicle?.invoice_amount | number :
+                                            '1.3-3'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-vehicle-result-skelton></app-vehicle-result-skelton>
+</ng-template>
+
+<ng-template #noVehicleFound>
+    <div class="flex flex-col flex-auto items-center justify-center gap-4">
+        <app-empty-items [message]="'Please select a live tickets to process or search a vehicle' | translate">
+        </app-empty-items>
+    </div>
+</ng-template>
+
+<ng-template #placeHolder>
+    <img src="assets/images/car-placeholder.jpeg" class="w-full h-full rounded-xl">
+</ng-template>
+
+<ng-template #noImage>
+    <img class="w-30 -mt-5 -mb-2 self-center md:self-start" src="assets/images/license-plate.png">
+</ng-template>

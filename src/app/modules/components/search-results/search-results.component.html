@@ -1,0 +1,225 @@
+<div class="flex flex-col flex-initial bg-card p-3 rounded-lg shadow gap-2 container-height overflow-auto">
+    <div class="flex flex-row flex-initial justify-between items-center text-primary text-lg border-b pb-2">
+
+        <div class="items-center flex flex-row flex-0">
+            <mat-icon class="mx-1 text-primary" svgIcon="heroicons_outline:ticket"></mat-icon>
+            <div> {{ !isCreateLOT ? ('Tickets' | translate): ('Create Lost Ticket' | translate)}}</div>
+        </div>
+
+        <div *ngIf="!isCreateLOT" class="flex flex-row gap-2 flex-initial items-center">
+            <button (click)="createLostTicket()" *ngIf="vehicleList?.length"
+                class="text-white rounded min-h-0 h-8 w-full" mat-flat-button [color]="'primary'">
+                <mat-icon class="mx-1 text-white" svgIcon="heroicons_outline:ticket"></mat-icon>
+                <span>
+                    {{'Create Lost Ticket' | translate}}
+                </span>
+            </button>
+            <div class="flex flex-initial bg-gray-400 p-1 px-3 text-white rounded-md">
+                <span class="text-sm"> {{searchTicketCount}}</span>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!isCreateLOT;else createLOT">
+        <div class="grid grid-cols-1 gap-2 overflow-y-auto"
+            [ngClass]="!vehicleList?.length ? 'flex-auto' : 'flex-initial '">
+            <ng-container *ngIf="!isSearch;else loading">
+                <ng-container *ngIf="vehicleList?.length;else noVehicleFound">
+                    <div class="col-span-1 sm:col-span-1 gap-y-2 flex flex-col"
+                        *ngFor="let vehicle of vehicleList;let i = index;let last =last">
+                        <div [ngClass]="last ? 'mb-1' : ''"
+                            class="flex flex-0 flex-col gap-1 card-padding cursor-pointer">
+                            <div (click)="selectVehilce(vehicle)"
+                                class="bg-card rounded-xl hover:bg-blue-50 shadow flex md:flex-row md:justify-between flex-col px-4 flex-auto gap-2">
+                                <div class="flex md:flex-row flex-col flex-auto gap-2 py-3">
+                                    <div class="flex flex-col flex-0">
+                                        <ng-container *ngIf="vehicle?.entry_image || vehicle?.exit_image;else noImage">
+                                            <div class="w-30 h-24 flex flex-initial items-center">
+                                                <img alt="Plate number image"
+                                                    [src]="vehicle?.entry_image ? vehicle?.entry_image : vehicle?.exit_image">
+                                            </div>
+                                        </ng-container>
+                                        <div class="flex flex-row flex-initial gap-1">
+                                            <div *ngIf="vehicle?.country"
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{vehicle?.country}}
+                                            </div>
+                                            <div *ngIf="vehicle?.plate_number_prefix"
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{vehicle?.plate_number_prefix}}
+                                            </div>
+                                            <div *ngIf="vehicle?.plate_number"
+                                                class="border font-bold text-center border-solid border-gray-200 px-4 bg-white py-1">
+                                                {{vehicle?.plate_number}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1 flex-auto p-1"
+                                        style="height: fit-content !important;">
+                                        <div
+                                            class="flex flex-row primary-bg text-sm  px-3 rounded-md p-0.5 text-white self-end flex-0 gap-1 justify-between md:justify-start">
+                                            <div class="text-white items-center flex flex-row">{{'In Time ' |
+                                                translate}}
+                                                <span class="hidden md:flex">:</span>
+                                            </div>
+                                            <div> {{vehicle?.in_time | date:"dd/MM/yyyy"}},
+                                                <span class="font-bold text-md ">{{vehicle?.in_time | date:'hh:mm a'}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="flex md:flex-row flex-col flex-auto md:justify-between">
+                                            <div class="flex flex-row flex-0 gap-1 justify-between md:justify-start">
+                                                <div class="text-secondary">{{'Gate' | translate}}<span
+                                                        class="hidden md:inline">:</span></div>
+                                                <div>{{vehicle?.entry_gate?.gate_no}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row flex-auto justify-between  items-center">
+                                            <div class="text-secondary">{{'Parking Fees' | translate}}</div>
+                                            <div>KWD {{vehicle?.amount_breakdown?.parking_fee | number : '1.3-3'}}</div>
+                                        </div>
+                                        <div class="flex flex-row flex-auto  justify-between items-center">
+                                            <div class="text-secondary">{{'Pass Fees' | translate}}</div>
+                                            <div>KWD {{vehicle?.amount_breakdown?.pass_fee | number : '1.3-3'}}</div>
+                                        </div>
+                                        <div class="flex flex-row flex-auto justify-between  items-center">
+                                            <div class="text-secondary text-lg font-bold">{{'Total' | translate}}
+                                            </div>
+                                            <div class="text-lg font-bold">KWD {{vehicle?.invoice_amount | number :
+                                                '1.3-3'}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="checkPagination()" class="flex flex-row flex-auto justify-center items-center">
+                        <button [disabled]="isLoading" (click)="loadMore()"
+                            class="fuse-mat-button-large h-10 bg-gray-100 flex bg-transparent min-w-0  min-h-0"
+                            mat-flat-button>
+                            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-icon class="icon-size-4 mx-1" svgIcon="heroicons_outline:arrow-down"></mat-icon>
+                                <span>{{'Load More' | translate}}</span>
+                            </ng-container>
+                        </button>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #loading>
+    <app-vehicle-result-skelton></app-vehicle-result-skelton>
+</ng-template>
+
+<ng-template #createLOT>
+    <form class="flex flex-col flex-initial gap-2 card-padding" [formGroup]="form">
+        <div class="flex flex-col md:flex-row flex-initial md:gap-2 md:items-center">
+            <mat-form-field class="flex-auto">
+                <mat-label>{{'Country' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input formControlName="country" [attr.autocomplete]="'off'" type="text" matInput>
+                <mat-error *ngIf="form.get('country').hasError('required')">
+                    {{'Country is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>{{'Prefix' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input formControlName="plate_number_prefix" [attr.autocomplete]="'off'" type="text" matInput>
+                <mat-error *ngIf="form.get('plate_number_prefix').hasError('required')">
+                    {{'Prefix is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>{{'Plate Number' | translate}}
+                    <span class="text-red-600">*</span>
+                </mat-label>
+                <input formControlName="plate_number" [attr.autocomplete]="'off'" type="text" matInput>
+                <mat-error *ngIf="form.get('plate_number').hasError('required')">
+                    {{'Plate Number is required' | translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-col md:flex-row md:gap-2 flex-initial">
+            <div class="flex flex-auto">
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'In Time' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input formControlName="in_time" (click)="picker.open()" matInput [ngxMatDatetimePicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker [enableMeridian]="true" #picker></ngx-mat-datetime-picker>
+                    <mat-error *ngIf="form.get('in_time').hasError('required')">
+                        {{'In Time is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-auto">
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{'Out Time' | translate}}
+                        <span class="text-red-600">*</span>
+                    </mat-label>
+                    <input formControlName="out_time" (click)="picker1.open()" matInput
+                        [ngxMatDatetimePicker]="picker1">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker [enableMeridian]="true" #picker1></ngx-mat-datetime-picker>
+                    <mat-error *ngIf="form.get('out_time').hasError('required')">
+                        {{'Out Time is required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="flex flex-auto flex-initial justify-end items-center gap-2">
+            <button [disabled]="form.disabled" type="button" (click)="cancelLOT()"
+                class="text-black rounded min-h-0 border border-solid border-gray-200" mat-flat-button>
+                <mat-icon class="mx-1" svgIcon="mat_outline:clear"></mat-icon>
+                <span>
+                    {{'Cancel' | translate}}
+                </span>
+            </button>
+            <button (click)="saveLOT()" [disabled]="form.invalid || form.disabled" type="submit"
+                class="text-white rounded min-h-0 " mat-flat-button [color]="'primary'">
+                <mat-icon *ngIf="!form.disabled" class="mx-1 text-white" svgIcon="heroicons_outline:ticket"></mat-icon>
+                <span *ngIf="!form.disabled">
+                    {{'Create Lost Ticket' | translate}}
+                </span>
+                <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                </mat-progress-spinner>
+            </button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #noVehicleFound>
+    <div class="flex flex-col flex-auto items-center justify-center gap-4">
+        <app-empty-items [message]="'Nothing to display' | translate">
+        </app-empty-items>
+        <mat-divider class="w-full"></mat-divider>
+        <div class="flex flex-col flex-initial gap-2">
+            <strong class="text-secondary self-center">{{'Lost Ticket ?' | translate}}</strong>
+            <button (click)="createLostTicket()" class="text-white rounded min-h-0 w-full" mat-flat-button
+                [color]="'primary'">
+                <mat-icon class="mx-1 text-white" svgIcon="heroicons_outline:ticket"></mat-icon>
+                <span>
+                    {{'Create Ticket' | translate}}
+                </span>
+            </button>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #placeHolder>
+    <img src="assets/images/car-placeholder.jpeg" class="w-full h-full rounded-xl">
+</ng-template>
+
+<ng-template #noImage>
+    <img class="w-30 -mt-5 -mb-2 self-center md:self-start" src="assets/images/license-plate.png">
+</ng-template>
